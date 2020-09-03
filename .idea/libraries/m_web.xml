@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="m-web">
+    <CLASSES>
+      <root url="file://G:/maven/m-web" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://G:/maven/m-web" recursive="false" />
+  </library>
+</component>
