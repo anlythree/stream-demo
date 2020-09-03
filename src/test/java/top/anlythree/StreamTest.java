@@ -28,7 +28,7 @@ public class StreamTest {
     }
 
     /**
-     * 流是不可服用的，下面的stream1已经用过了就会被作废，所以下面的
+     * 流是不可复用的，下面的stream1已经用过了就会被作废，所以下面的
      * Stream<Person> personStream3 = personStream1.filter(a -> a.getAge() > 3)就会报错
      */
     @Test
