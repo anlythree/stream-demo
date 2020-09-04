@@ -2,9 +2,16 @@ package top.anlythree;
 
 import org.junit.Test;
 import top.anlythree.model.Person;
+import top.anlythree.myinterface.MyInterface;
+import top.anlythree.myinterface.impl.MyInterfaceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -47,7 +54,82 @@ public class StreamTest {
     @Test
     public void streamCreateMiddleNode(){
         ArrayList<Person> personList = new ArrayList();
-        Stream<Person> personStream1 = personList.stream();
-        System.out.println(personStream1.count());
+        personList.add(new Person());
+        Object[] objects = personList.stream()
+                .peek(a -> System.out.println(a.getName()))
+                .peek(a -> System.out.println(a.getAge()))
+                .toArray();
     }
+
+    /**
+     * 流是一个元素一个元素的读取list的
+     */
+    @Test
+    public void streamOneByOneToRead(){
+        ArrayList<Person> personList = new ArrayList();
+        personList.add(new Person(2,"wangwu"));
+        personList.add(new Person(4,"wangli"));
+        personList.add(new Person(14,"wangzhengzhi"));
+        personList.add(new Person(3,"chenwu2"));
+        personList.add(new Person(17,"wangwu3"));
+        Object[] objects = personList.stream()
+                .peek(a -> System.out.println(a.getName()))
+                .peek(a -> System.out.println(a.getAge()))
+                .toArray();
+    }
+
+    /**
+     * 流的上一个节点会影响下一个节点
+     */
+    @Test
+    public void streamEffectNextNode(){
+        ArrayList<Person> personList = new ArrayList();
+        personList.add(new Person(2,"wangwu"));
+        personList.add(new Person(4,"wangli"));
+        personList.add(new Person(14,"wangzhengzhi"));
+        personList.add(new Person(3,"chenwu2"));
+        personList.add(new Person(17,"wangwu3"));
+        personList.stream()
+                .peek(a -> System.out.println("before:"+a.getName()))
+                .map(a->a.getName())
+                .distinct()
+//                .peek(a -> System.out.println("after:"+a.getName()))
+                .toArray();
+    }
+
+
+    public <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+
+    public void test(MyInterface myInterface){
+        System.out.println(myInterface.test1());;
+    }
+
+    @Test
+    public void test2(){
+        test(()-> "12");
+    }
+
+    @Test
+    public void test3(){
+        MyInterface myInterface = new MyInterfaceImpl();
+        test(myInterface);
+    }
+
+
+    /**
+     * collect节点方法中的Collectors.toMap方法
+     */
+    @Test
+    public void streamToMap(){
+        ArrayList<Person> personList = new ArrayList();
+        personList.add(new Person(2,"wangwu"));
+        Map<Integer, Person> collect = personList.stream()
+                .collect(Collectors.toMap(a -> a.getAge(), a -> a, (a1, a2) -> a1));
+    }
+
+
 }

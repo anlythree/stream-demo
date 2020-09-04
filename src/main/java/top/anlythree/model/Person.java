@@ -1,10 +1,14 @@
 package top.anlythree.model;
 
 
+import com.oracle.webservices.internal.api.databinding.DatabindingMode;
+import lombok.Data;
+
 /**
  * @author wangli
  * @date 2020/9/1 17:04
  */
+@Data
 public class Person {
 
     private String name;
