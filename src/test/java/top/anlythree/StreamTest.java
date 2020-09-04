@@ -38,4 +38,16 @@ public class StreamTest {
         Stream<Person> personStream2 = personStream1.filter(a -> a.getName().substring(0, 1).equals("王"));
         Stream<Person> personStream3 = personStream1.filter(a -> a.getAge() > 3);
     }
+
+    /**
+     * 中间过程中间创建的节点是懒加载的，只有终止节点是实时加载的。
+     * 中间节点是根据终止节点来加载的
+     * 返回流的方法通常就是中间节点，剩下的方法通常就是终止节点
+     */
+    @Test
+    public void streamCreateMiddleNode(){
+        ArrayList<Person> personList = new ArrayList();
+        Stream<Person> personStream1 = personList.stream();
+        System.out.println(personStream1.count());
+    }
 }
